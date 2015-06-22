@@ -1,0 +1,27 @@
+<div>
+    <h1>RSS Reader Sample</h1>
+    <div class="container" ng-controller="FeedCtrl as vm">
+        {{vm.name}}
+        <div ng-repeat="feed in vm.feeds | orderBy:'title'">
+            <h2><a href="{{feed.link}}" target="_blank">{{feed.title}}</a></h2>
+            <p>
+                <span ng-repeat="item in feed.entries">
+    		        <a href="{{item.link}}" target="_blank">{{item.title}}</a> 
+                    (<span>{{item.publishedDate | date:'d-MM-yyyy HH:mm'}}</span>)
+                    <br />
+                </span>
+            </p>
+        </div>
+        <!-- <pre>{{vm.feeds | json}}</pre> -->
+    </div>
+    <h1>InfiniteScroll Sample</h1>
+    <div ng-controller='FeedCtrl as vm'>
+        <div infinite-scroll='vm.loadMore(10)' infinite-scroll-distance='2' infinite-scroll-immediate-check='true'>
+            <div class="row" ng-repeat="enry in vm.entries">
+                <a href="{{item.link}}" target="_blank">{{item.title}}</a> 
+                    (<span>{{item.publishedDate | date:'d-MM-yyyy HH:mm'}}</span>)
+                    <br />
+            </div>
+        </div>
+    </div>
+</div>
