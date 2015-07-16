@@ -9,7 +9,8 @@
             'ngSanitize',
             'ngTouch',
             'ngRoute',
-            'infinite-scroll'
+            'infinite-scroll',
+            'wu.masonry'
         ]);
 
 

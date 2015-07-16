@@ -1,4 +1,25 @@
-<div ng-controller="FeedCtrl as vm">
-    <h1> {{vm.entry.title}} </h1>
-    <p> {{vm.entry.contentSnippet}} </p> 
+<div ng-controller="HomeCtrl as vm">
+	<div class="row">
+		<div masonry>
+	    <div ng-repeat="feed in vm.feeds | orderBy:'title'">
+	    	
+		        <span class="masonry-brick" ng-repeat="item in feed.entries">
+		        	<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+				       
+					       <div class="thumbnail"> 
+				 				<!-- <a ng-href="#" target="_blank"> -->
+					            	<img ng-src="/home/lebowski-1.jpg" alt="" class="img-responsive" />
+					            <!-- </a> -->
+					            <a ng-href="{{ item.link }}" target="_blank"><h4>{{item.title}}</h4></a>
+					            <!-- <b> what {{item.sampleImage}}</b> -->
+					            <p>{{item.publishedDate | date}}</p>
+					            <p>{{item.contentSnippet}}</p>
+					        </div>
+				        
+				    </div>
+		    	</span>
+	    	
+	    </div>
+	    </div>
+    </div>
 </div>
