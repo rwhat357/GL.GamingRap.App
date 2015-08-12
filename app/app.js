@@ -2,16 +2,17 @@
     'use strict';
 
     var app = angular
-        .module('GamingRapApp', [
-            'ngAnimate',
-            'ngCookies',
-            'ngResource',
-            'ngSanitize',
-            'ngTouch',
-            'ui.router',
-            'infinite-scroll',
-            'wu.masonry'
-        ]);
+        .module('GamingRapApp', 
+            [
+                'ngAnimate',
+                'ngCookies',
+                'ngResource',
+                'ngSanitize',
+                'ngTouch',
+                'ui.router',
+                'infinite-scroll',
+                'wu.masonry'
+            ]);
 
 
     app.config(function($stateProvider, $urlRouterProvider) {
