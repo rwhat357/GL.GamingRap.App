@@ -1,25 +1,21 @@
 <div ng-controller="HomeCtrl as vm">
-	<div class="row">
-		<div masonry>
-	    <div ng-repeat="feed in vm.feeds | orderBy:'title'">
-	    	
-		        <span class="masonry-brick" ng-repeat="item in feed.entries">
-		        	<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-				       
-					       <div class="thumbnail"> 
-				 				<!-- <a ng-href="#" target="_blank"> -->
-					            	<img ng-src="/home/lebowski-1.jpg" alt="" class="img-responsive" />
-					            <!-- </a> -->
-					            <a ng-href="{{ item.link }}" target="_blank"><h4>{{item.title}}</h4></a>
-					            <!-- <b> what {{item.sampleImage}}</b> -->
-					            <p>{{item.publishedDate | date}}</p>
-					            <p>{{item.contentSnippet}}</p>
-					        </div>
-				        
-				    </div>
-		    	</span>
-	    	
-	    </div>
+	<div class="row" infinite-scroll='vm.retrieve()' infinite-scroll-distance='1'>
+	    <div ng-repeat="entry in vm.boardFeedStatus.list track by $index">
+        	<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+		       <div class="thumbnail"> 
+	 				<!-- <a ng-href="#" target="_blank"> -->
+		            <!-- 	<img ng-src="/home/lebowski-1.jpg" alt="" class="img-responsive" /> -->
+		            <!-- </a> -->
+		            <a ng-href="{{ entry.link }}" target="_blank"><h4>{{entry.title}}</h4></a>
+		            <!-- <b> what {{item.sampleImage}}</b> -->
+		            <p>{{entry.publishedDate | date}}</p>
+		            <p>{{entry.contentSnippet}}</p>
+		        </div>
+		    </div>
 	    </div>
     </div>
+    <div ng-show="vm.boardFeedStatus.retrieving">
+    	<h1>Retrieving more .... </h1>
+    </div>
 </div>
+

@@ -8,29 +8,37 @@
             'ngResource',
             'ngSanitize',
             'ngTouch',
-            'ngRoute',
+            'ui.router',
             'infinite-scroll',
             'wu.masonry'
         ]);
 
 
-    app.config(['$routeProvider',
-        function($routeProvider) {
-            $routeProvider.
-            when('/home', {
-                templateUrl: 'home/home.html'
-            }).
-            when('/about', {
-                templateUrl: 'about/about.html',
-                controller: 'AboutCtrl'
-            }).
-            otherwise({
-                redirectTo: '/home'
-            });
-        }
-    ]);
+    app.config(function($stateProvider, $urlRouterProvider) {
 
+        $urlRouterProvider.otherwise("/home");
+        $stateProvider
 
+        .state('home', {
+          url: '^/home',
+          templateUrl: 'home/home.html',
+          controller:'HomeCtrl',
+          title : 'Home',
+        })
 
+        .state('about', {
+          url: '^/about',
+          templateUrl: 'about/about.html',
+          title : 'About',
+        })
+
+        .state('contact', {
+          url: '^/contact',
+          templateUrl: 'contact/contact.html',
+          title : 'Contact',
+        });
+    
+    });
+    
 
 }());

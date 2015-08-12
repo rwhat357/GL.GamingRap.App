@@ -8,7 +8,6 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css(.) styles/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
@@ -34,15 +33,16 @@
               <span class="icon-bar"></span>
             </button>
 
-            <a class="navbar-brand" href="#/">GamingRap</a>
+            <a class="navbar-brand" ui-sref="home">GamingRap</a>
           </div>
 
           <div class="collapse navbar-collapse" id="js-navbar-collapse">
 
             <ul class="nav navbar-nav">
-              <li class="active"><a href="#/">Home</a></li>
-              <li><a ng-href="#/">About</a></li>
-              <li><a ng-href="#/">Contact</a></li>
+              
+              <li><a ui-sref="home">Home</a></li>
+              <li><a ui-sref="about">About</a></li>
+              <li><a ui-sref="contact">Contact</a></li>
             </ul>
           </div>
         </div>
@@ -50,7 +50,7 @@
     </div>
 
     <div class="container-fluid">
-      <div ng-include="'home/home.html'"></div>
+      <div ui-view></div>
     </div>
 
     <div class="footer">
@@ -82,7 +82,6 @@
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
     <script src="bower_components/get-style-property/get-style-property.js"></script>
     <script src="bower_components/get-size/get-size.js"></script>
     <script src="bower_components/eventie/eventie.js"></script>
@@ -95,16 +94,22 @@
     <script src="bower_components/imagesloaded/imagesloaded.js"></script>
     <script src="bower_components/jquery-bridget/jquery.bridget.js"></script>
     <script src="bower_components/angular-masonry/angular-masonry.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+    <script src="bower_components/angular-mocks/angular-mocks.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- other thirdparty -->
     <script src="https://www.google.com/jsapi"></script>
-
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
+
+    <!-- app --> 
     <script src="app.js"></script>
-    <script src="home/home-ctrl.js"></script>
+    <script src="home/HomeCtrl.js"></script>
     <script src="about/about-ctrl.js"></script>
+    <!-- endapp --> 
 
     <!-- endbuild -->
 </body>
