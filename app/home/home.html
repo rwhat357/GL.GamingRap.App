@@ -1,21 +1,17 @@
-<div ng-controller="HomeCtrl as vm">
-	<div class="row" infinite-scroll='vm.retrieve()' infinite-scroll-distance='1'>
-	    <div ng-repeat="entry in vm.boardFeedStatus.list track by $index">
-        	<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
-		       <div class="thumbnail"> 
-	 				<!-- <a ng-href="#" target="_blank"> -->
-		            <!-- 	<img ng-src="/home/lebowski-1.jpg" alt="" class="img-responsive" /> -->
-		            <!-- </a> -->
-		            <a ng-href="{{ entry.link }}" target="_blank"><h4>{{entry.title}}</h4></a>
-		            <!-- <b> what {{item.sampleImage}}</b> -->
-		            <p>{{entry.publishedDate | date}}</p>
-		            <p>{{entry.contentSnippet}}</p>
-		        </div>
-		    </div>
+<div infinite-scroll='vm.retrieve()' infinite-scroll-distance='1'>
+  <div masonry item-selector=".card">
+	<div masonry-brick class="card" ng-repeat="entry in vm.boardFeedStatus.list track by $index">
+	<a href="{{entry.link}}" target="_blank">
+	    <div class="image">
+	        <img ng-src="{{ entry.src }}" alt="RSS feed image">
 	    </div>
-    </div>
-    <div ng-show="vm.boardFeedStatus.retrieving">
-    	<h1>Retrieving more .... </h1>
-    </div>
-</div>
+	    <div class="content">
+	        <span class="title">{{entry.title}}</span>
+	        <p>{{entry.contentSnippet}}</p>
+	        <div class="date">Today</div>
+	        <!-- {{entry.publishedDate | date}} -->
+	    </div>
+	</a>
 
+	</div>
+  </div>

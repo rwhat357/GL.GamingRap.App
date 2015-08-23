@@ -11,8 +11,10 @@
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="styles/bootstrap-yeti-theme.css">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,500,300,100,700,900">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/home.css">
     <!-- endbuild -->
   </head>
   <body ng-app="GamingRapApp">
@@ -22,7 +24,7 @@
 
     <!-- Add your site or application content here -->
     <div class="header">
-      <div class="navbar navbar-default" role="navigation">
+      <div class="navbar navbar-inverse" role="navigation">
         <div class="container">
           <div class="navbar-header">
 
@@ -72,16 +74,9 @@
     </script>
 
     <!-- build:js(.) scripts/vendor.js -->
-    <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="bower_components/angular-animate/angular-animate.js"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="bower_components/angular-touch/angular-touch.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/get-style-property/get-style-property.js"></script>
     <script src="bower_components/get-size/get-size.js"></script>
     <script src="bower_components/eventie/eventie.js"></script>
@@ -90,28 +85,33 @@
     <script src="bower_components/matches-selector/matches-selector.js"></script>
     <script src="bower_components/outlayer/item.js"></script>
     <script src="bower_components/outlayer/outlayer.js"></script>
+    <script src="bower_components/jquery-bridget/jquery.bridget.js"></script>
     <script src="bower_components/masonry/masonry.js"></script>
     <script src="bower_components/imagesloaded/imagesloaded.js"></script>
-    <script src="bower_components/jquery-bridget/jquery.bridget.js"></script>
     <script src="bower_components/angular-masonry/angular-masonry.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="bower_components/underscore/underscore.js"></script>
     <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
     <script src="bower_components/angular-mocks/angular-mocks.js"></script>
-    <!-- endbower -->
-    <!-- endbuild -->
-
-    <!-- other thirdparty -->
     <script src="https://www.google.com/jsapi"></script>
+    <!-- endbuild -->
+    
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
-
-    <!-- app --> 
     <script src="app.js"></script>
     <script src="home/HomeCtrl.js"></script>
+    <script src="home/URLsRepoSvc.js"></script>
+    <script src="home/feedLoaderFromGoogleSvc.js"></script>
     <script src="about/about-ctrl.js"></script>
-
-    <!-- endapp --> 
-
+    <script src="common/services/common.services.js"></script>
+    <script src="common/services/feedResource.js"></script>
+    <script src="common/services/feedResourceMock.js"></script>
     <!-- endbuild -->
 </body>
 </html>

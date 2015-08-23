@@ -4,71 +4,41 @@
     var app = angular.module('GamingRapApp')
         .controller('HomeCtrl', HomeCtrl);
 
-    function HomeCtrl(feedListSvc) { //Feed is a google service
+    function HomeCtrl(feedListApiSvc) { //Feed is a google service
 
         var vm = this;
         vm.boardFeedStatus = {};
-        vm.FEEDS = {};
 
         vm.retrieve = retrieve;
-
-
-        // testing
-
-        // end testings
 
         //////////////////////
 
         function initBoardContainer() {
+            var PAGE_SIZE = 20;
             vm.boardFeedStatus.list = [];
             vm.boardFeedStatus.totalCount = 0;
             vm.boardFeedStatus.totalPages = 0;
             vm.boardFeedStatus.currentPage = 0;
-            vm.boardFeedStatus.pageSize = 20;
+            vm.boardFeedStatus.pageSize = PAGE_SIZE;
             vm.boardFeedStatus.retrieving = false;
         }
 
-        function retrieve(){
+        function retrieve() {
 
-            if ( _.isEmpty(vm.boardFeedStatus) ){
+            if (_.isEmpty(vm.boardFeedStatus)) {
                 initBoardContainer();
             }
 
-            vm.retrieveStatus = true;
             console.log('retrieve() called');
-            feedListSvc.get(vm.boardFeedStatus)
-                .then(function(data){
-                    console.log('returned retrieving all feeds');
-                    // vm.feeds.push.apply(vm.feeds, data);
-                    //vm.retrieveStatus = false;
-                    // _.each(data, function(value) {
-                    //     //  //Embed Parsing + Lookup
-                    //     var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
-                    //     var urlRegex = new RegExp(expression);
-
-                    //     var images = value.content.match(urlRegex);
-                    //     if (images){
-                    //        value.sampleImage = images[0];
-                    //     }
-
-                    //     value.sampleImage = $(value.content).find('img').eq(0).attr('src');
-                    //     if (!value.sampleImage) {
-                    //         value.sampleImage = $(value.content).find('iframe').eq(0).attr('src');
-                    //     } else {
-                    //         console.log('Couldn\'t find a picture or a youtube video for this feed entry');
-                    //     }
-                    // });
-                }, function(){
-                    console.log("Error: couldn't fetch RSS feed.");
-                });
+            feedListApiSvc.get(vm.boardFeedStatus);
 
         }
     }
 
-    app.factory('feedListSvc', function($rootScope, $q, FeedLoader, URLsRepo) {
+    app.factory('feedListApiSvc', function($rootScope, $q, feedLoaderFromGoogleSvc, URLDataProviderSvc) {
 
         var service = {
-            get : get
+            get: get
         };
 
         return service;
@@ -76,26 +46,44 @@
         ////////////////////////
 
         function get(boardFeedStatus) {
+
+            var results = URLDataProviderSvc.getNextURLBatch(boardFeedStatus);
+
+            // There is no more URLs to return
+            if (_.isEmpty(results.URLsList)) {
+                return;
+            }
+
+            var feedSources = results.URLsList;
+            //kanbanArtifactStatus.list.push.apply(kanbanArtifactStatus.list, data.results);
+
+            // updating feeds object
+            boardFeedStatus.totalCount = results.totalCount;
+            boardFeedStatus.totalPages = results.totalPages;
+
             var deferred = $q.defer();
-            var feedSources = URLsRepo.getAll();
-            var feedSourcesCount = feedSources.length;
             var retrivedCount = 0;
-            boardFeedStatus.retrieving  = true;
+            boardFeedStatus.retrieving = true;
+
             for (var i = 0; i < feedSources.length; i++) {
-                FeedLoader.fetch({
+                feedLoaderFromGoogleSvc.fetch({
                     q: feedSources[i].url,
                     num: 1
                 }, {}, function(data) {
                     if (data.responseData.feed) {
                         var feed = data.responseData.feed;
-                        boardFeedStatus.list.push(feed.entries[0]);
+                        var firstFeed = feed.entries[0];
+                        var  randNum = Math.floor(Math.random() * (100 - 30 + 1)) + 30;
+                        firstFeed.src = 'http://lorempixel.com/280/357/?' + randNum;
+                        boardFeedStatus.list.push(firstFeed);
                         retrivedCount++;
-                        if (retrivedCount >= feedSourcesCount){
+                        if (retrivedCount >= feedSources.length) {
                             deferred.resolve(boardFeedStatus);
-                            boardFeedStatus.retrieving  = false;
+                            boardFeedStatus.currentPage += 1;
+                            boardFeedStatus.retrieving = false;
                         }
                     } else {
-                        console.log('Did not have any feed entries: ' + feedSources[i].url);
+                        console.log('This feed didn\'t have any feed entries: ' + feedSources[i].url);
                     }
                 });
 
@@ -103,140 +91,81 @@
 
             return deferred.promise;
         }
+
+
+
     });
 
+    app.factory('URLDataProviderSvc', function(URLsRepoSvc) {
 
-    app.factory('FeedLoader', function($resource) {
-        return $resource('http://ajax.googleapis.com/ajax/services/feed/load', {}, {
-            fetch: {
-                method: 'JSONP',
-                params: {
-                    v: '1.0',
-                    callback: 'JSON_CALLBACK'
-                }
-            }
-        });
-    });
-
-
-    app.factory('URLsRepo', [URLsRepo]);
-
-    function URLsRepo() {
-
-        var service  = {
-            getAll : getAll
+        var service = {
+            getNextURLBatch: getNextURLBatch
         };
 
         return service;
 
         ////////////////////////
 
-        function getAll() {
-            var feedSources = [{
-                title: 'kotaku',
-                url: 'http://feeds.feedburner.com/TechCrunch/gaming'
-            }, {
-                title: 'neoseaker',
-                url: 'http://www.neoseeker.com/feeds/news/?type=rss0.91'
-            }, {
-                title: 'ps4daily',
-                url: 'http://ps4daily.com/feed/'
-            }, {
-                title: 'gamingbolt',
-                url: 'http://gamingbolt.com/feed'
-            }, {
-                title: 'gamespot',
-                url: 'http://www.gamespot.com/feeds/video/'
-            }, {
-                title: 'giantbomb',
-                url: 'http://www.giantbomb.com/feeds/mashup/'
-            }, {
-                title: 'rockpapershotgun',
-                url: 'http://feeds.feedburner.com/RockPaperShotgun'
-            }, {
-                title: 'attackerofthefanboy',
-                url: 'http://attackofthefanboy.com/feed/'
-            }, {
-                title: 'alphabetagamer',
-                url: 'http://www.alphabetagamer.com/feed/'
-            }, {
-                title: ' destructoid',
-                url: ' http://www.destructoid.com//?mode=atom'
-            }, {
-                title: 'robertsspaceindustries ',
-                url: ' https://robertsspaceindustries.com/comm-link/rss'
-            }, {
-                title: 'artstation ',
-                url: ' https://www.artstation.com/artwork.rss'
-            }, {
-                title: 'tentonhammer ',
-                url: 'http://www.tentonhammer.com/rss '
-            }, {
-                title: ' theonion',
-                url: ' http://feeds.theonion.com/Gameological '
-            }, {
-                title: ' nag',
-                url: ' http://www.nag.co.za/feed/'
-            }, {
-                title: ' nonfictiongaming',
-                url: ' http://www.nonfictiongaming.com/feed/  '
-            }, {
-                title: 'nerdreactor ',
-                url: 'http://nerdreactor.com/feed/ '
-            }, {
-                title: ' thisisxbox',
-                url: 'http://www.thisisxbox.com/feed '
-            }, {
-                title: ' gameinformer',
-                url: 'http://www.gameinformer.com/feeds/topfiverss.aspx?p=home '
-            }, {
-                title: ' GamasutraFeatureArticles',
-                url: ' http://feeds.feedburner.com/GamasutraFeatureArticles'
-            }, {
-                title: 'eurogamer ',
-                url: 'http://www.eurogamer.net/?format=rss '
-            }, {
-                title: ' GameRant',
-                url: ' http://feeds.feedburner.com/GameRant'
-            }, {
-                title: ' ps4daily',
-                url: 'http://ps4daily.com/feed '
-            }, {
-                title: ' gawker',
-                url: ' http://feeds.gawker.com/kotaku/full'
-            }, {
-                title: ' WiiUDaily',
-                url: ' http://feeds.feedburner.com/WiiUDaily'
-            }, {
-                title: ' gamezebo',
-                url: ' http://www.gamezebo.com/rss'
-            }, {
-                title: ' Co-optimus',
-                url: 'http://feeds.feedburner.com/Co-optimus '
-            }, {
-                title: ' gametrailers',
-                url: ' http://www.gametrailers.com/videos-trailers/feed'
-            }, {
-                title: ' stealthybox',
-                url: ' http://www.stealthybox.com/feed'
-            }, {
-                title: ' theverge',
-                url: ' http://www.theverge.com/gaming/rss/index.xml'
-            }, {
-                title: ' gamespot',
-                url: 'http://www.gamespot.com/feeds/video/ '
-            }, {
-                title: ' WeGotThisCoveredGaming',
-                url: ' http://feeds.feedburner.com/WeGotThisCoveredGaming'
-            }, {
-                title: ' polygon',
-                url: ' http://www.polygon.com/rss/index.xml'
+        function getNextURLBatch(boardFeedStatus) {
+
+            var results = {
+                URLsList: [],
+                totalCount: 0,
+                totalPages: 0
+            };
+
+            var URLs = URLsRepoSvc.getAllURLs();
+            results.totalCount = URLs.length;
+            results.totalPages = Math.ceil(URLs.length / boardFeedStatus.pageSize);
+
+            var start = boardFeedStatus.currentPage * boardFeedStatus.pageSize;
+            var end = start + boardFeedStatus.pageSize;
+
+            // there is no more URLs to return
+            if ( start > results.totalCount){
+                return results;
             }
 
-            ];
+            if (end > results.totalCount){
+                end = results.totalCount;
+            }
 
-            return feedSources;
+            results.URLsList = getObjectsInRange(URLs, start, end);
+
+            return results;
         }
-    }
+
+        // min inclusive, max exclusive. [ )
+        function getObjectsInRange (list, min, max) {
+            var results = [];
+            for (var i = min; i < max ; i++){
+                results.push(list[i]);
+            }
+            return results;
+        }
+
+    });
+
 
 })();
+
+
+// vm.feeds.push.apply(vm.feeds, data);
+//vm.retrieveStatus = false;
+// _.each(data, function(value) {
+//     //  //Embed Parsing + Lookup
+//     var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi;
+//     var urlRegex = new RegExp(expression);
+
+//     var images = value.content.match(urlRegex);
+//     if (images){
+//        value.sampleImage = images[0];
+//     }
+
+//     value.sampleImage = $(value.content).find('img').eq(0).attr('src');
+//     if (!value.sampleImage) {
+//         value.sampleImage = $(value.content).find('iframe').eq(0).attr('src');
+//     } else {
+//         console.log('Couldn\'t find a picture or a youtube video for this feed entry');
+//     }
+// });

@@ -10,8 +10,8 @@
                 'ngSanitize',
                 'ngTouch',
                 'ui.router',
-                'infinite-scroll',
-                'wu.masonry'
+                'wu.masonry',
+                'infinite-scroll'
             ]);
 
 
@@ -23,7 +23,7 @@
         .state('home', {
           url: '^/home',
           templateUrl: 'home/home.html',
-          controller:'HomeCtrl',
+          controller:'HomeCtrl as vm',
           title : 'Home',
         })
 
