@@ -4,16 +4,10 @@
     var app = angular
         .module('GamingRapApp', 
             [
-                'ngAnimate',
-                'ngCookies',
                 'ngResource',
                 'ngSanitize',
-                'ngTouch',
-                'ui.router',
-                'wu.masonry',
-                'infinite-scroll'
+                'ui.router'
             ]);
-
 
     app.config(function($stateProvider, $urlRouterProvider) {
 
@@ -22,24 +16,25 @@
 
         .state('home', {
           url: '^/home',
-          templateUrl: 'home/home.html',
+          templateUrl: 'app/home/home.html',
           controller:'HomeCtrl as vm',
           title : 'Home',
         })
-
         .state('about', {
           url: '^/about',
-          templateUrl: 'about/about.html',
+          templateUrl: 'app/about/about.html',
+          controller:'AboutCtrl as vm',
           title : 'About',
-        })
-
+        })        
         .state('contact', {
           url: '^/contact',
-          templateUrl: 'contact/contact.html',
+          templateUrl: 'app/contact/contact.html',
+          controller:'ContactCtrl as vm',
           title : 'Contact',
-        });
+        })
     
     });
+    
     
 
 }());

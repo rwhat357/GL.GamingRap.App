@@ -1,3 +1,6 @@
+<h1>Hello World: {{vm.name}}</h1>
+<div>{{vm.boardFeedStatus.list}}</div>
+
 <div infinite-scroll='vm.retrieve()' infinite-scroll-distance='1'>
   <div masonry item-selector=".card">
 	<div masonry-brick class="card" ng-repeat="entry in vm.boardFeedStatus.list track by $index">
