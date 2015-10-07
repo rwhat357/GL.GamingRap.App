@@ -6,7 +6,8 @@
             [
                 'ngResource',
                 'ngSanitize',
-                'ui.router'
+                'ui.router',
+                'infinite-scroll'
             ]);
 
     app.config(function($stateProvider, $urlRouterProvider) {
