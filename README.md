@@ -1,32 +1,26 @@
-Freighter
+GL.GamingRap.App
 ================
 
-[Development Process](/DevProcess.md) 
-
-
-
 ## How to Set Up the Local Dev Environment
-To get started, install all the required software first and then follow the instructions to set up each software step-by-step. If you have any problems during the set up, refer to the [Common Set Up Problems & Solutions](####Common) section towards the end of the document.
+To get started, install all the required software first and then follow the instructions to set up each software step-by-step.
 
 ####Required Software
 * [Git Client](https://git-scm.com/downloads)
 * [Node.js](http://nodejs.org/)
-* Visual Studio 2013
-* [IIS Manager](https://www.microsoft.com/en-us/download/details.aspx?id=2299)
 
 ####Cloning the Freighter Repository
 
 1. Open **Git Bash** or preferred git utility.
 2. Clone the Freighter repo from GitHub in your local machine.
-	`git clone https://github.com/FrontlineTechnologies/Freighter.git`
+	`git clone https://rwhat357@bitbucket.org/rwhat357/gl.gamingrap.app.git`
 
 
 ####How to Set Up Node.js
 
 1. Open **Node.js Command Prompt**.
-2. Navigate inside the **app** folder (i.e. `cd C:\Users\fwhatley\Desktop\Freighter\Freighter.App\app`)
+2. Navigate inside the **GL.GamingRap.App** folder (i.e. `cd C:\Users\fwhatley\Desktop\GL.GamingRap.App`)
 3. Run the commands below in order. 
-	* `npm install -g grunt-cli`
+	* `npm install -g grunt-cli` which installs npm command line interface
 	* `npm install` which will bring in all the dependencies 
 	* `grunt server` which will
 		* process **.styl** files down to the site.css file required to run the site 
