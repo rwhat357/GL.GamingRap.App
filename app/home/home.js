@@ -9,42 +9,6 @@
         var vm = this;
         vm.boardFeedStatus = {};
         vm.name = 'fredy';
-        vm.things = 
-        [
-                {
-                    order: 0,
-                    title: 'kotaku',
-                    url: 'http://feeds.feedburner.com/TechCrunch/gaming',
-                    src: 'http://lorempixel.com/g/280/357/?1642'
-                }, {
-                    order: 1,
-                    title: 'kotaku',
-                    url: 'http://feeds.feedburner.com/TechCrunch/gaming',
-                    src: 'http://lorempixel.com/g/280/357/?1642'
-                }, {
-                    order: 2,
-                    title: 'neoseaker',
-                    url: 'http://www.neoseeker.com/feeds/news/?type=rss0.91',
-                    src: 'http://lorempixel.com/g/280/357/?1642'
-                }, {
-                    order: 3,
-                    title: 'ps4daily',
-                    url: 'http://ps4daily.com/feed/',
-                    src: 'http://lorempixel.com/g/280/357/?1642'
-                }, {
-                    order: 4,
-                    title: 'gamingbolt',
-                    url: 'http://gamingbolt.com/feed',
-                    src: 'http://lorempixel.com/g/280/357/?1642'
-                }, {
-                    order: 5,
-                    title: 'gamespot',
-                    url: 'http://www.gamespot.com/feeds/video/',
-                    src: 'http://lorempixel.com/g/280/357/?1642'
-                }
-
-        ];
-
         vm.retrieve = retrieve;
 
         //////////////////////
@@ -110,7 +74,8 @@
                         var feed = data.responseData.feed;
                         var firstFeed = feed.entries[0];
                         var  randNum = Math.floor(Math.random() * (100 - 30 + 1)) + 30;
-                        firstFeed.src = 'http://lorempixel.com/280/357/?' + randNum;
+                        //firstFeed.src = 'http://lorempixel.com/280/357/?333';
+                        firstFeed.src = getImageUrl(firstFeed.content);
                         boardFeedStatus.list.push(firstFeed);
                         retrivedCount++;
                         if (retrivedCount >= feedSources.length) {
@@ -129,8 +94,26 @@
         }
 
 
-
     });
+
+
+    function getImageUrl(feedContent){
+        // from: http://stackoverflow.com/questions/14939296/extract-image-src-from-a-string
+        var imageSrc,
+            urls = [], 
+            regex = /<img.*?src="([^">]*\/([^">]*?))".*?>/g;
+
+        while ( imageSrc = regex.exec( feedContent ) ) {
+            urls.push( imageSrc[1] );
+        }
+
+        if (urls.length > 0){
+            return urls[0];
+        } else {
+            return 'http://lorempixel.com/280/357/?333';
+        }
+    }
+
 
     app.factory('URLDataProviderSvc', function(URLsRepoSvc) {
 
