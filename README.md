@@ -8,10 +8,10 @@ To get started, install all the required software first and then follow the inst
 * [Git Client](https://git-scm.com/downloads)
 * [Node.js](http://nodejs.org/)
 
-####Cloning the Freighter Repository
+####Cloning the GamingRap Repository
 
 1. Open **Git Bash** or preferred git utility.
-2. Clone the Freighter repo from GitHub in your local machine.
+2. Clone the GamingRap repo from GitHub in your local machine.
 	`git clone https://rwhat357@bitbucket.org/rwhat357/gl.gamingrap.app.git`
 
 
