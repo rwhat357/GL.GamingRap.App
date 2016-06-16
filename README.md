@@ -22,7 +22,7 @@ To get started, install all the required software first and then follow the inst
 3. Run the commands below in order. 
 	* `npm install -g grunt-cli` which installs npm command line interface
 	* `npm install` which will bring in all the dependencies 
-	* `grunt server` which will
+	* `grunt dev` which will
 		* process **.styl** files down to the site.css file required to run the site 
         * watch your files and provide livereload
 		* run unit tests with karma
